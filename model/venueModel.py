@@ -60,3 +60,14 @@ venues = [
         ]
     }
 ]
+
+
+def getVenue(id):
+    for venue in venues:
+        if venue["id"] == id:
+            return venue
+
+def getItem(venue, item_id):
+    for item in venue["menu"]:
+        if item["id"] == item_id:
+            return item

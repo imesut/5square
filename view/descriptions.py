@@ -1,5 +1,5 @@
 from utils.pathUtils import *
-import model.venueModel
+from model.venueModel import getItem, getVenue
 
 def textForPath(path : str) -> str:
     array = splitPathStr(path)
@@ -60,15 +60,3 @@ def textForPath(path : str) -> str:
             return text
     else:
         return "path"
-
-
-def getVenue(id):
-    for venue in model.venueModel.venues:
-        if venue["id"] == id:
-            return venue
-
-def getItem(venue, item_id):
-    for item in venue["menu"]:
-        if item["id"] == item_id:
-            return item
-
