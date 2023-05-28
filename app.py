@@ -1,9 +1,10 @@
 from dotenv import load_dotenv
 import os
-
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes, CallbackQueryHandler
-from routes import choosePath, route_main
+from routes import choosePath
+from view.buttons import view_button_main
+from view.descriptions import textForPath
 import logging
 
 load_dotenv()
@@ -13,14 +14,14 @@ logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text("Please choose:", reply_markup = route_main("main"))
+    await update.message.reply_text("Welcome to the 5quare Bot!", reply_markup = view_button_main("main"))
 
 async def buttonHandler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
     path = query.data
     reply_markup = choosePath(path)
     await query.answer()
-    await query.edit_message_text(text = path, reply_markup = reply_markup)
+    await query.edit_message_text(text = textForPath(path), parse_mode="HTML", reply_markup = reply_markup)
 
 def main() -> None:
     application = Application.builder().token(token).build()
