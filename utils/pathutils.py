@@ -1,10 +1,12 @@
+from typing import List
+
 pathSplitChar = ">>"
 
 # Path Utils
 def combinePaths(pathArray : list) -> str:
     return pathSplitChar.join(pathArray)
 
-def splitPathStr(pathString : str) -> list:
+def splitPathStr(pathString : str) -> List[str]:
     return pathString.split(pathSplitChar)
 
 def addToPath(str1 : str, str2 : str) -> str:

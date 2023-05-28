@@ -5,6 +5,7 @@ from telegram.ext import Application, CommandHandler, ContextTypes, CallbackQuer
 from routes import choosePath
 from view.buttons import view_button_main
 from view.descriptions import textForPath
+from utils.prefUtils import *
 import logging
 
 load_dotenv()
@@ -19,7 +20,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 async def buttonHandler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
     path = query.data
-    reply_markup = choosePath(path)
+    if path.endswith("_pref"):
+        # This should be before than choosePath.
+        await handlePref(path, context=context)
+    reply_markup = choosePath(path, context)
     await query.answer()
     await query.edit_message_text(text = textForPath(path), parse_mode="HTML", reply_markup = reply_markup)
 

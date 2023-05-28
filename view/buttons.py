@@ -1,6 +1,8 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import ContextTypes
 from utils.pathUtils import *
 import model.venueModel
+import utils.prefUtils
 
 upMenuStr = "👆 Go to the Previous Menu"
 
@@ -24,11 +26,19 @@ def view_button_previous_orders(crntPath : str):
         ]
     return InlineKeyboardMarkup(keyboard)
 
-def view_button_venue_preferences(crntPath : str):
+def view_button_venue_preferences(crntPath : str, context : ContextTypes.DEFAULT_TYPE):
+    prefs = utils.prefUtils.getPrefs(context)
+    whl = prefs["whl"]
+    sign = prefs["sign"]
+    blind = prefs["blind"]
+    
     keyboard = [
-        [InlineKeyboardButton("Wheelchair Accessibility", callback_data = addToPath(crntPath, "wheelchair_accessibility"))],
-        [InlineKeyboardButton("Sign Language", callback_data = addToPath(crntPath, "sign_language"))],
-        [InlineKeyboardButton("Blind Friendly Entrance", callback_data = addToPath(crntPath, "blind_friendly"))],
+        [InlineKeyboardButton("Wheelchair Accessibility" + (" ✅" if whl == True else ""),
+                              callback_data = addToPath(crntPath, "whl_" + ("dsbl" if whl == True else "enbl") + "_pref"))],
+        [InlineKeyboardButton("Sign Language" + (" ✅" if sign == True else ""),
+                              callback_data = addToPath(crntPath, "sign_" + ("dsbl" if sign == True else "enbl") + "_pref"))],
+        [InlineKeyboardButton("Blind Friendly Entrance" + (" ✅" if blind == True else ""),
+                              callback_data = addToPath(crntPath, "blind_" + ("dsbl" if blind == True else "enbl") + "_pref"))],
         [InlineKeyboardButton(upMenuStr, callback_data = prvPath(crntPath))]
         ]
     return InlineKeyboardMarkup(keyboard)
@@ -57,7 +67,7 @@ def view_button_venues_in_category(crntPath : str):
 def view_button_venue_detail(crntPath : str):
     # venue_id = lastPathParam(crntPath)
     keyboard = [
-        [InlineKeyboardButton("View the Menu/Services", callback_data = addToPath(crntPath, "view_menu"))],
+        [InlineKeyboardButton("View the Menu / Services", callback_data = addToPath(crntPath, "view_menu"))],
         [InlineKeyboardButton(upMenuStr, callback_data = prvPath(crntPath))]
         ]
     return InlineKeyboardMarkup(keyboard)
@@ -80,7 +90,7 @@ def view_button_item_detail(crntPath : str):
     type = params[-4]
     venue_id = params[-3]
     keyboard = [
-        [InlineKeyboardButton("Order and Pay Now", callback_data = addToPath(crntPath, "order_pay"))],
+        [InlineKeyboardButton("Order and Pay Now", callback_data = addToPath(crntPath, "order_pay"), pay=True)],
         [InlineKeyboardButton("Just Order (Pay at the Venue)", callback_data = addToPath(crntPath, "order"))],
         [InlineKeyboardButton(upMenuStr, callback_data = prvPath(crntPath))]
         ]

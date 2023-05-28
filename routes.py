@@ -1,18 +1,26 @@
 from telegram import InlineKeyboardMarkup
+from telegram.ext import ContextTypes
 from view.buttons import *
 
-def choosePath(path : str) -> InlineKeyboardMarkup:
+def choosePath(path : str, context : ContextTypes.DEFAULT_TYPE) -> InlineKeyboardMarkup:
     array = splitPathStr(path)
     print(array)
     if len(array) == 1:
         return view_button_main("main")
     elif len(array) == 2:
         lastHandle = array[-1]
-        return returnFunc(path, callbacks[lastHandle])
+        if lastHandle == "venue_preferences":
+            return view_button_venue_preferences(path, context)
+        else:
+            return returnFunc(path, callbacks[lastHandle])
     elif len(array) == 3:
         # List Venues in Selected Category
         if array[1] == "vn_ctgs":
             return view_button_venues_in_category(path)
+        elif array[-2] == "venue_preferences":
+            # Remove last item, because it has been processed before.
+            path = combinePaths(splitPathStr(path)[:-1])
+            return view_button_venue_preferences(path, context)
     elif len(array) == 4:
         # Venue Details
         if array[1] == "vn_ctgs":
