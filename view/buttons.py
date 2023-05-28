@@ -1,5 +1,6 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from utils.pathUtils import *
+import model.venueModel
 
 upMenuStr = "👆 Go to the Previous Menu"
 
@@ -46,19 +47,16 @@ def view_button_vn_ctgs(crntPath : str):
 
 def view_button_venues_in_category(crntPath : str):
     type = lastPathParam(crntPath)
-    keyboard = [
-        [InlineKeyboardButton(f"{type} Place 1", callback_data = addToPath(crntPath, "vn_id_1"))],
-        [InlineKeyboardButton(f"{type} Place 2", callback_data = addToPath(crntPath, "vn_id_2"))],
-        [InlineKeyboardButton(f"{type} Place 3", callback_data = addToPath(crntPath, "vn_id_3"))],
-        [InlineKeyboardButton(f"Other {type}s", callback_data = "main")],
-        [InlineKeyboardButton(upMenuStr, callback_data = prvPath(crntPath))]
-        ]
+    keyboard = []
+    for venue in model.venueModel.venues:
+        keyboard.append( [InlineKeyboardButton(venue["name"], callback_data = addToPath(crntPath, venue["id"]))] )
+    keyboard.append( [InlineKeyboardButton(f"Other {type}s", callback_data = "main")] )
+    keyboard.append( [InlineKeyboardButton(upMenuStr, callback_data = prvPath(crntPath))] )
     return InlineKeyboardMarkup(keyboard)
 
 def view_button_venue_detail(crntPath : str):
     # venue_id = lastPathParam(crntPath)
     keyboard = [
-        [InlineKeyboardButton("Venue Details", callback_data = addToPath(crntPath, "venue_details_detail"))], #TODO: Add details to this screen.
         [InlineKeyboardButton("View the Menu/Services", callback_data = addToPath(crntPath, "view_menu"))],
         [InlineKeyboardButton(upMenuStr, callback_data = prvPath(crntPath))]
         ]
@@ -68,13 +66,13 @@ def view_button_menu_detail(crntPath : str):
     params = splitPathStr(crntPath)
     type = params[-3]
     venue_id = params[-2]
-    keyboard = [
-        [InlineKeyboardButton(f"{type} Item 1", callback_data = addToPath(crntPath, "mn_id_1"))],
-        [InlineKeyboardButton(f"{type} Item 2", callback_data = addToPath(crntPath, "mn_id_2"))],
-        [InlineKeyboardButton(f"{type} Item 3", callback_data = addToPath(crntPath, "mn_id_3"))],
-        [InlineKeyboardButton(f"{type} Item 4", callback_data = addToPath(crntPath, "mn_id_4"))],
-        [InlineKeyboardButton(upMenuStr, callback_data = prvPath(crntPath))]
-        ]
+    keyboard = []
+    for venue in model.venueModel.venues:
+        if venue["id"] == venue_id:
+            for item in venue["menu"]:
+                keyboard.append( [InlineKeyboardButton(item["name"], callback_data = addToPath(crntPath, item["id"]))] )
+    
+    keyboard.append( [InlineKeyboardButton(upMenuStr, callback_data = prvPath(crntPath))] )
     return InlineKeyboardMarkup(keyboard)
 
 def view_button_item_detail(crntPath : str):
@@ -82,12 +80,14 @@ def view_button_item_detail(crntPath : str):
     type = params[-4]
     venue_id = params[-3]
     keyboard = [
-        [InlineKeyboardButton("View in 3D", callback_data = addToPath(crntPath, "3d"))],
         [InlineKeyboardButton("Order and Pay Now", callback_data = addToPath(crntPath, "order_pay"))],
         [InlineKeyboardButton("Just Order (Pay at the Venue)", callback_data = addToPath(crntPath, "order"))],
         [InlineKeyboardButton(upMenuStr, callback_data = prvPath(crntPath))]
         ]
     return InlineKeyboardMarkup(keyboard)
+
+def view_button_back(crntPath : str):
+    return InlineKeyboardMarkup( [[InlineKeyboardButton(upMenuStr, callback_data = prvPath(crntPath))]] )
 
 
 def view_button_undeveloped(crntPath : str):

@@ -37,6 +37,6 @@ callbacks = {
     "previous_orders": view_button_previous_orders,
     "venue_preferences": view_button_venue_preferences,
     "ods_inplace": view_button_undeveloped,
-    "l_m": view_button_undeveloped,
+    "l_m": view_button_back,
     "vn_ctgs": view_button_vn_ctgs
     }
