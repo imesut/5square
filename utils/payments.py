@@ -16,9 +16,9 @@ async def handlePayments(update : Update, context : ContextTypes.DEFAULT_TYPE):
     
     venue = getVenue(venue_id)
     item = getItem(venue=venue, item_id=item_id)
-
-    await query.answer()
     
+    print(ENV.PAYMENT_PROVIDER_TOKEN)
+        
     await context.bot.send_invoice(chat_id=update.callback_query.message.chat_id,
                                    title=item["name"],
                                    description="Your order from " + venue["name"] + " paid over " + ENV.APPNAME,

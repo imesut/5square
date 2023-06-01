@@ -3,7 +3,7 @@ venues = [
         "id": "1002",
         "name": "The 5quare Restaurant",
         "address": "Random Street, Number 3/5",
-        "phone": "0123456789",
+        "phone": "1234-567-8901",
         "score": "3.5/5",
         "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSCMa9b83vLTLq3g5mcPHi9DLUeMhlLbyLbQ&usqp=CAU",
         "menu": [
