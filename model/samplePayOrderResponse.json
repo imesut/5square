@@ -1,0 +1,42 @@
+{
+    "payment": {
+        "id": "RwCPCtd6NgR51gdBGMIikm9X9dbZY",
+        "created_at": "2023-06-02T18:50:18.128Z",
+        "updated_at": "2023-06-02T18:50:18.237Z",
+        "amount_money": {
+            "amount": 749,
+            "currency": "USD"
+        },
+        "status": "COMPLETED",
+        "source_type": "CASH",
+        "location_id": "L7E1Z2CGNYTM8",
+        "order_id": "wOWlEgIcKNH6NypV9xvvYiiv6PfZY",
+        "total_money": {
+            "amount": 749,
+            "currency": "USD"
+        },
+        "capabilities": [
+            "EDIT_AMOUNT_UP",
+            "EDIT_AMOUNT_DOWN",
+            "EDIT_TIP_AMOUNT_UP",
+            "EDIT_TIP_AMOUNT_DOWN"
+        ],
+        "cash_details": {
+            "buyer_supplied_money": {
+                "amount": 749,
+                "currency": "USD"
+            },
+            "change_back_money": {
+                "amount": 0,
+                "currency": "USD"
+            }
+        },
+        "receipt_number": "RwCP",
+        "receipt_url": "https://squareupsandbox.com/receipt/preview/RwCPCtd6NgR51gdBGMIikm9X9dbZY",
+        "application_details": {
+            "square_product": "ECOMMERCE_API",
+            "application_id": "sandbox-sq0idb-VeG0j3VfJTohnxlbOeWJnQ"
+        },
+        "version_token": "679qBp5l86L30EwIxNwFbHmBOxue1IqCzNIT2YhjnUm6o"
+    }
+}

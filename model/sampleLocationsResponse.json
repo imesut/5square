@@ -1,0 +1,32 @@
+{
+    "locations": [
+        {
+            "id": "L7E1Z2CGNYTM8",
+            "name": "The 5quare Restaurant",
+            "address": {
+                "address_line_1": "Random Street, Number 3/5",
+                "locality": "Washington",
+                "administrative_district_level_1": "DC",
+                "postal_code": "20500",
+                "country": "US"
+            },
+            "timezone": "UTC",
+            "capabilities": [
+                "CREDIT_CARD_PROCESSING",
+                "AUTOMATIC_TRANSFERS"
+            ],
+            "status": "ACTIVE",
+            "created_at": "2023-05-28T18:38:57.787Z",
+            "merchant_id": "MLPECWYZNR2M8",
+            "country": "US",
+            "language_code": "en-US",
+            "currency": "USD",
+            "phone_number": "+1 234-567-8901",
+            "business_name": "The 5quare Restaurant",
+            "type": "PHYSICAL",
+            "business_hours": {},
+            "pos_background_url": "https://square-web-sandbox-f.squarecdn.com/files/7edfae80fc840d9aaac4a8ee61dff37572294642/original.jpeg",
+            "mcc": "7299"
+        }
+    ]
+}
