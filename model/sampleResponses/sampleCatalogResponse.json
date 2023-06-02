@@ -1,0 +1,162 @@
+{
+    "objects": [
+        {
+            "type": "CUSTOM_ATTRIBUTE_DEFINITION",
+            "id": "N7DOEXKDO2QP674PXNUB56JB",
+            "updated_at": "2023-05-29T18:16:56.758Z",
+            "created_at": "2023-05-29T18:16:56.758Z",
+            "version": 1685384216758,
+            "is_deleted": false,
+            "present_at_all_locations": true,
+            "custom_attribute_definition_data": {
+                "type": "BOOLEAN",
+                "name": "vegetarian",
+                "source_application": {
+                    "application_id": "Square"
+                },
+                "allowed_object_types": [
+                    "ITEM",
+                    "ITEM_VARIATION"
+                ],
+                "seller_visibility": "SELLER_VISIBILITY_READ_WRITE_VALUES",
+                "app_visibility": "APP_VISIBILITY_READ_WRITE_VALUES",
+                "key": "81ea0b74-8978-45f8-93e1-644b9d887d6d"
+            }
+        },
+        {
+            "type": "ITEM",
+            "id": "GS5YDGBOQCI47ESG6QWPJT5L",
+            "updated_at": "2023-05-29T18:27:33.761Z",
+            "created_at": "2023-05-29T18:16:57.646Z",
+            "version": 1685384853761,
+            "is_deleted": false,
+            "custom_attribute_values": {
+                "Square:25aeb5ca-d36c-4b41-8921-a0a6f484256b": {
+                    "name": "3DModel",
+                    "string_value": "https://developer.apple.com/augmented-reality/quick-look/models/meringue/pie_lemon_meringue.usdz",
+                    "custom_attribute_definition_id": "OZOW5LPTO23PO2LIBPSST5RC",
+                    "type": "STRING",
+                    "key": "Square:25aeb5ca-d36c-4b41-8921-a0a6f484256b"
+                },
+                "Square:81ea0b74-8978-45f8-93e1-644b9d887d6d": {
+                    "name": "vegetarian",
+                    "custom_attribute_definition_id": "N7DOEXKDO2QP674PXNUB56JB",
+                    "type": "BOOLEAN",
+                    "boolean_value": true,
+                    "key": "Square:81ea0b74-8978-45f8-93e1-644b9d887d6d"
+                }
+            },
+            "present_at_all_locations": true,
+            "item_data": {
+                "name": "Pie Lemon Meringue",
+                "is_taxable": true,
+                "visibility": "PRIVATE",
+                "variations": [{
+                    "type": "ITEM_VARIATION",
+                    "id": "446OPJ6RTDQEA5HHAOE6A2PW",
+                    "updated_at": "2023-05-29T18:22:40.628Z",
+                    "created_at": "2023-05-29T18:16:57.646Z",
+                    "version": 1685384560628,
+                    "is_deleted": false,
+                    "custom_attribute_values": {
+                        "Square:81ea0b74-8978-45f8-93e1-644b9d887d6d": {
+                            "name": "vegetarian",
+                            "custom_attribute_definition_id": "N7DOEXKDO2QP674PXNUB56JB",
+                            "type": "BOOLEAN",
+                            "boolean_value": true,
+                            "key": "Square:81ea0b74-8978-45f8-93e1-644b9d887d6d"
+                        }
+                    },
+                    "present_at_all_locations": true,
+                    "item_variation_data": {
+                        "item_id": "GS5YDGBOQCI47ESG6QWPJT5L",
+                        "name": "Regular",
+                        "ordinal": 1,
+                        "pricing_type": "FIXED_PRICING",
+                        "price_money": {
+                            "amount": 215,
+                            "currency": "USD"
+                        },
+                        "track_inventory": false,
+                        "sellable": true,
+                        "stockable": true
+                    }
+                }],
+                "product_type": "REGULAR",
+                "skip_modifier_screen": false,
+                "ecom_visibility": "UNINDEXED",
+                "image_ids": [
+                    "IWKSFUVH5LPABBSCSY5SBIKS"
+                ]
+            }
+        },
+        {
+            "type": "CUSTOM_ATTRIBUTE_DEFINITION",
+            "id": "OZOW5LPTO23PO2LIBPSST5RC",
+            "updated_at": "2023-05-29T18:27:33.399Z",
+            "created_at": "2023-05-29T18:27:33.399Z",
+            "version": 1685384853399,
+            "is_deleted": false,
+            "present_at_all_locations": true,
+            "custom_attribute_definition_data": {
+                "type": "STRING",
+                "name": "3DModel",
+                "source_application": {
+                    "application_id": "Square"
+                },
+                "allowed_object_types": [
+                    "ITEM",
+                    "ITEM_VARIATION"
+                ],
+                "seller_visibility": "SELLER_VISIBILITY_READ_WRITE_VALUES",
+                "app_visibility": "APP_VISIBILITY_READ_WRITE_VALUES",
+                "string_config": {
+                    "enforce_uniqueness": false
+                },
+                "key": "25aeb5ca-d36c-4b41-8921-a0a6f484256b"
+            }
+        },
+        {
+            "type": "ITEM",
+            "id": "PFWGSRU55GAQIIH45LN3T4MM",
+            "updated_at": "2023-05-29T19:04:28.965Z",
+            "created_at": "2023-05-29T18:28:35.926Z",
+            "version": 1685387068965,
+            "is_deleted": false,
+            "present_at_all_locations": true,
+            "item_data": {
+                "name": "Burger Awesome",
+                "is_taxable": true,
+                "visibility": "PRIVATE",
+                "variations": [{
+                    "type": "ITEM_VARIATION",
+                    "id": "5LN4DYZESGUI2ZLS3ZP6GY4S",
+                    "updated_at": "2023-05-29T18:28:35.926Z",
+                    "created_at": "2023-05-29T18:28:35.926Z",
+                    "version": 1685384915926,
+                    "is_deleted": false,
+                    "present_at_all_locations": true,
+                    "item_variation_data": {
+                        "item_id": "PFWGSRU55GAQIIH45LN3T4MM",
+                        "name": "Regular",
+                        "ordinal": 1,
+                        "pricing_type": "FIXED_PRICING",
+                        "price_money": {
+                            "amount": 749,
+                            "currency": "USD"
+                        },
+                        "track_inventory": false,
+                        "sellable": true,
+                        "stockable": true
+                    }
+                }],
+                "product_type": "REGULAR",
+                "skip_modifier_screen": true,
+                "ecom_visibility": "UNINDEXED",
+                "image_ids": [
+                    "ISW5SUXOQNMD477IYUS5I54F"
+                ]
+            }
+        }
+    ]
+}

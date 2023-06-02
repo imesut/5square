@@ -9,5 +9,8 @@ headers = {
 baseUrl = "https://connect.squareupsandbox.com/v2"
 
 locationsEndpoint = baseUrl + "/locations/"
+catalogEndpoint = baseUrl + "/catalog/list/"
 ordersEndpoint = baseUrl + "/orders/"
 paymentsEndpoint = baseUrl + "/payments/"
+catalogObjectEndpoint = baseUrl + "/catalog/object/"
+
