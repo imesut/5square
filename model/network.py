@@ -13,4 +13,3 @@ catalogEndpoint = baseUrl + "/catalog/list/"
 ordersEndpoint = baseUrl + "/orders/"
 paymentsEndpoint = baseUrl + "/payments/"
 catalogObjectEndpoint = baseUrl + "/catalog/object/"
-

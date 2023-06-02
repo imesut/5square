@@ -19,10 +19,7 @@ def transformCatalogToMenu(objects) -> list:
     for object in objects:
         if object["type"] == "ITEM":
             id = object["id"]
-            itemData = object["item_data"]
-            
-            print(itemData)
-            
+            itemData = object["item_data"]            
             itemName = itemData["name"]
             modelUrl = ""
             image = ""
@@ -59,6 +56,5 @@ def transformCatalogToMenu(objects) -> list:
 def fetchImage(imageId) -> str:
     rsp = requests.request("GET", catalogObjectEndpoint + imageId, headers=headers, data="")
     resp = json.loads(rsp.text)
-    print(rsp.text)
     return resp["object"]["image_data"]["url"] if rsp.status_code == 200 else ""
     

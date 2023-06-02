@@ -17,7 +17,6 @@ async def handlePref(path : str, context : ContextTypes.DEFAULT_TYPE):
             context.chat_data[pref] = False
     
 def getPrefs(context : ContextTypes.DEFAULT_TYPE):
-    print(context.chat_data)
     return {
         "whl": context.chat_data.get("whl", False),
         "sign": context.chat_data.get("sign", False),

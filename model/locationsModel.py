@@ -6,6 +6,10 @@ from model.catalogModel import getMenu
 
 
 def initLocations():
+    # For now, bot takes one location source dynamically, to position this bot better in the future
+    # It would be great to allow venue owners to enable their locations for bot servicability.
+    # And a public / open api for venues can be provided by Square.
+    # So we're offering a services returns multiple businesses' locations, according to some criterias like distance or score.
     response = requests.request("GET", locationsEndpoint, headers=headers, data="")
     if response.status_code == 200:
         locations = json.loads(response.text)["locations"]
