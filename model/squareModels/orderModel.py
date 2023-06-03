@@ -1,10 +1,10 @@
 import requests
 import json
 import time
-from network import headers, ordersEndpoint, paymentsEndpoint
+from model.squareModels.network import headers, ordersEndpoint, paymentsEndpoint
 
 
-def orderItem(locationId : str, catalog_object_id : str, userName : str, customerId : str) -> str:
+def orderItem(locationId : str, catalog_object_id : str, customerId : str) -> str:
     """Places order of the user.
 
     Args:
@@ -49,9 +49,10 @@ def orderItem(locationId : str, catalog_object_id : str, userName : str, custome
     
     response = requests.request("POST", ordersEndpoint, headers = headers, data = payload)
     
-    if response.status_code == 200:    
-        response = json.loads(response.text)
-        orderId = response["order"]["id"]
+    if response.status_code == 200:
+        response = json.loads(response.text)["order"]
+        print(response)
+        orderId = response["id"]
         amount = response["net_amount_due_money"]["amount"]
         currency = response["net_amount_due_money"]["currency"]
         receiptNumber = payOrder(idempotencyKey=idempotencyKey, orderId=orderId, amount=amount, currency=currency)

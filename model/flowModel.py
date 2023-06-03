@@ -1,6 +1,5 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
-from utils.pathUtils import *
 import model.venueModel
 
 import utils.prefUtils
@@ -16,7 +15,7 @@ markups = {
     },
     "categories_ask_location": {
         "text": "<b>Please share your location.</b>",
-        "name": "Please share your location.",
+        "name": "List Nearby Places",
         "children": [ "<main" ]
     },
     "categories": {
