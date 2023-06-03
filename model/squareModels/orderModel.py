@@ -29,7 +29,7 @@ def orderItem(locationId : str, catalog_object_id : str, userName : str, custome
             "pricing_options": {
                 "auto_apply_discounts": True,
                 "auto_apply_taxes": True
-            }
+            },
             "fulfillments": [
                 {
                     "type": "PICKUP",
@@ -58,9 +58,6 @@ def orderItem(locationId : str, catalog_object_id : str, userName : str, custome
         return receiptNumber
     else:
         return "-1"
-
-# Sample Order Function Call
-# orderItem("L7E1Z2CGNYTM8", "5LN4DYZESGUI2ZLS3ZP6GY4S", "Mesut Yılmaz", "mesuts_telegram_id")
 
 def payOrder(idempotencyKey : str, orderId : str, amount : int, currency : str) -> str:
 
