@@ -2,75 +2,134 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
 from utils.pathUtils import *
 import model.venueModel
+
 import utils.prefUtils
+import random
 
 upMenuStr = "👆 Go to the Previous Menu"
 
-# Buttons of Main Options
-def view_button_main(crntPath : str):
-    keyboard = [
-        [InlineKeyboardButton("Previous Orders", callback_data = addToPath(crntPath, "previous_orders"))],
-        [InlineKeyboardButton("Orders in Place", callback_data = addToPath(crntPath, "ods_inplace"))],
-        [InlineKeyboardButton("Select Categories to Explore", callback_data = addToPath(crntPath, "vn_ctgs"))],
-        [InlineKeyboardButton("Venue Preferences", callback_data = addToPath(crntPath, "venue_preferences"))],
-        [InlineKeyboardButton("Learn More", callback_data = addToPath(crntPath, "l_m"))]
-        ]
-    return InlineKeyboardMarkup(keyboard)
+markups = {
+    "main": {
+        "text": "<b>Welcome to AllSquare.</b>\nYou can shop at places that provide payment infrastructure and offer you a personalized experience with the Square platform.",
+        "name": "Main Menu",
+        "children": [ "categories", "venue_preferences", "food_preferences", "learn_more" ]
+    },
+    "categories": {
+        "text": "<b>Closest Places to You.</b>",
+        "name": "Categories",
+        "children": [ "food", "coffee", "beauty", "upcoming", "<main" ]
+    },
+    "food": {
+        "text": "<b>🍔 Food</b>",
+        "name": "🍔 Food",
+        "children": [ "venue=1003", "<categories" ]
+    },
+    "coffee": {
+        "text": "<b>☕️ Coffee</b>",
+        "name": "☕️ Coffee",
+        "children": [ "venue=1003", "<categories" ]
+    },
+    "beauty": {
+        "text": "<b>💄 Beauty</b>",
+        "name": "💄 Beauty",
+        "children": [ "venue=1003", "<categories" ]
+    },
+    "upcoming": {
+        "text": "<b>⏮ Upcoming Others ⏭</b>",
+        "name": "⏮ Upcoming Others ⏭",
+        "children": [ "<categories" ]
+    },
+    # TBC
+    "venue_preferences": {
+        "text": "<b>Venue Preferences</b>",
+        "name": "Venue Preferences",
+        "children": [ "venue_preferences&whl", "venue_preferences&sign", "venue_preferences&blind", "<main" ]
+    },
+    "food_preferences": {
+        "text": "<b>Food Preferences</b>",
+        "name": "Food Preferences",
+        "children": [ "food_preferences&vegetarian", "food_preferences&gluten_allergy", "food_preferences&milk_allergy", "food_preferences&other_allergy", "<main" ]
+    },
+    "learn_more": {
+        "text": "<b>Learn More</b>",
+        "name": "Learn More",
+        "children": [ "<main" ]
+    },
+    "whl": { "name": "Wheelchair Accessibility" },
+    "sign": { "name": "Sign Language Accessibility" },
+    "blind": { "name": "Blind Friendly Accessibility" },
+    "_pay": { "text": "Payment in Progress" },
+    "vegetarian": { "name": "Prefer Vegetarian options" },
+    "gluten_allergy": { "name": "Choose Gluten-free options" },
+    "milk_allergy": { "name": "Choose milk-free options" },
+    "other_allergy": { "name": "I have another allergy" }
+}
 
-def view_button_previous_orders(crntPath : str):
-    keyboard = [
-        [InlineKeyboardButton("Order 1", callback_data = addToPath(crntPath, "order_1_id"))],
-        [InlineKeyboardButton("Order 2", callback_data = addToPath(crntPath, "order_2_id"))],
-        [InlineKeyboardButton("Order 3", callback_data = addToPath(crntPath, "order_3_id"))],
-        [InlineKeyboardButton(upMenuStr, callback_data = prvPath(crntPath))]
-        ]
-    return InlineKeyboardMarkup(keyboard)
 
-def view_button_venue_preferences(crntPath : str, context : ContextTypes.DEFAULT_TYPE):
-    prefs = utils.prefUtils.getPrefs(context)
-    whl = prefs["whl"]
-    sign = prefs["sign"]
-    blind = prefs["blind"]
+for venue in model.venueModel.venues:
+    venueKey = "venue=" + venue["id"]
+    menuArray = []
     
-    keyboard = [
-        [InlineKeyboardButton("Wheelchair Accessibility" + (" ✅" if whl == True else ""),
-                              callback_data = addToPath(crntPath, "whl_" + ("dsbl" if whl == True else "enbl") + "_pref"))],
-        [InlineKeyboardButton("Sign Language" + (" ✅" if sign == True else ""),
-                              callback_data = addToPath(crntPath, "sign_" + ("dsbl" if sign == True else "enbl") + "_pref"))],
-        [InlineKeyboardButton("Blind Friendly Entrance" + (" ✅" if blind == True else ""),
-                              callback_data = addToPath(crntPath, "blind_" + ("dsbl" if blind == True else "enbl") + "_pref"))],
-        [InlineKeyboardButton(upMenuStr, callback_data = prvPath(crntPath))]
-        ]
-    return InlineKeyboardMarkup(keyboard)
+    for item in venue["menu"]:
+        itemKey = "item=" + item["id"]
+        menuArray.append( itemKey )
+        
+        itemDescription = f"<b> { venue['name'].upper() } </b> \n"
+        if item["image"] != "":
+            itemDescription += f"<a href='{ item['image'] }'>·</a> \n"
+        if item["3DModel"] != "":
+            # iOS displays AR content natively on direct link access.
+            # For a later process in project, other messaging apps can display webview inside the chat.
+            # So there won't be any need to develop a wrapper for AR objects.
+            itemDescription += f"<a href='{ item['3DModel'] }'>View 3D Model</a> \n"
+        itemDescription += f"PRICE: { str(item['price'] / 100) } { item['currency'] }"
+        
+        buttonsInMenuItem = [
+            "_pay&" + item["id"], # Payment button for item
+            "<" + venueKey # Go back item
+            ]
+            
+        #     [InlineKeyboardButton("Order and Pay Now", callback_data = "pay", pay=True)],
+        #     [InlineKeyboardButton(upMenuStr, callback_data = "<" + venueKey]
+        # ]
 
+        
+        markups[itemKey] = {
+            "name": item["name"],
+            "text": itemDescription,
+            "children": buttonsInMenuItem
+        }
+    
+    # TODO pass/implement parent category
+    menuArray.append("<food")
+    
+    venueDescription = f"""
+    <a href='{venue['image'] } '>·</a>
+    <b> {venue['name'].upper()} </b>
+    Score: {venue['score']}
+    Address: { venue['address'] }
+    Phone: <a href='tel:{ venue['phone'] }'>{ venue['phone'] }</a>
+    """
+    
+    # TODO: Calculate real distance from user's location.
+    distance = random.choice([100, 250, 300, 400, 500])
+    
+    markups[venueKey] = {
+        "text": venueDescription,
+        "name": venue["name"] + " " + venue["score"] + "⭐️ - " + str(distance) + " meters",
+        "children": menuArray
+    }
+    
+    print(markups)
 
-# Buttons of Venues
-def view_button_vn_ctgs(crntPath : str):
-    keyboard = [
-        [InlineKeyboardButton("🍔 Food", callback_data = addToPath(crntPath, "food"))],
-        [InlineKeyboardButton("☕️ Coffee", callback_data = addToPath(crntPath, "coffee"))],
-        [InlineKeyboardButton("💄 Beauty", callback_data = addToPath(crntPath, "beauty"))],
-        [InlineKeyboardButton("⏮ Upcoming Others ⏭", callback_data = "main")],
-        [InlineKeyboardButton(upMenuStr, callback_data = prvPath(crntPath))]
-        ]
-    return InlineKeyboardMarkup(keyboard)
-
-def view_button_venues_in_category(crntPath : str):
-    type = lastPathParam(crntPath)
-    keyboard = []
-    for venue in model.venueModel.venues:
-        keyboard.append( [InlineKeyboardButton(venue["name"], callback_data = addToPath(crntPath, venue["id"]))] )
-    keyboard.append( [InlineKeyboardButton(f"Other {type}s", callback_data = "main")] )
-    keyboard.append( [InlineKeyboardButton(upMenuStr, callback_data = prvPath(crntPath))] )
-    return InlineKeyboardMarkup(keyboard)
-
-def view_button_venue_detail(crntPath : str):
-    # venue_id = lastPathParam(crntPath)
-    keyboard = [
-        [InlineKeyboardButton("View the Menu / Services", callback_data = addToPath(crntPath, "view_menu"))],
-        [InlineKeyboardButton(upMenuStr, callback_data = prvPath(crntPath))]
-        ]
-    return InlineKeyboardMarkup(keyboard)
+# def view_button_venues_in_category(crntPath : str):
+#     type = lastPathParam(crntPath)
+#     keyboard = []
+#     for venue in model.venueModel.venues:
+#         keyboard.append( [InlineKeyboardButton(venue["name"], callback_data = addToPath(crntPath, venue["id"]))] )
+#     keyboard.append( [InlineKeyboardButton(f"Other {type}s", callback_data = "main")] )
+#     keyboard.append( [InlineKeyboardButton(upMenuStr, callback_data = prvPath(crntPath))] )
+#     return InlineKeyboardMarkup(keyboard)
 
 def view_button_menu_detail(crntPath : str):
     params = splitPathStr(crntPath)
@@ -89,16 +148,6 @@ def view_button_item_detail(crntPath : str):
     params = splitPathStr(crntPath)
     type = params[-4]
     venue_id = params[-3]
-    keyboard = [
-        [InlineKeyboardButton("Order and Pay Now", callback_data = addToPath(crntPath, "order_pay"), pay=True)],
-        [InlineKeyboardButton("Just Order (Pay at the Venue)", callback_data = addToPath(crntPath, "order"))],
-        [InlineKeyboardButton(upMenuStr, callback_data = prvPath(crntPath))]
-        ]
+    
     return InlineKeyboardMarkup(keyboard)
 
-def view_button_back(crntPath : str):
-    return InlineKeyboardMarkup( [[InlineKeyboardButton(upMenuStr, callback_data = prvPath(crntPath))]] )
-
-
-def view_button_undeveloped(crntPath : str):
-    return InlineKeyboardMarkup( [[InlineKeyboardButton("👆 Undeveloped, Go to the Top Menu", callback_data = "main")]] )
