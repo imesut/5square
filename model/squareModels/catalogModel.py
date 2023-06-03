@@ -1,6 +1,6 @@
 import requests
 import json
-from model.network import headers, catalogEndpoint, catalogObjectEndpoint
+from model.squareModels.network import headers, catalogEndpoint, catalogObjectEndpoint
 from model.venueModel import addVenue
 
 

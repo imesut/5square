@@ -4,7 +4,7 @@ from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 
 from utils.envUtils import ENV
 
-from model.locationsModel import initLocations
+from model.squareModels.locationsModel import initLocations
 import handler.location, handler.payment, handler.button
 
 from model.flowModel import markups
@@ -31,13 +31,11 @@ def main() -> None:
     application = Application.builder().token(ENV.TOKEN).build()
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CallbackQueryHandler(handler.button.handler))
-    application.add_handler(MessageHandler(filters.SUCCESSFUL_PAYMENT, handler.payment.handler))
-    application.add_handler(MessageHandler(filters.LOCATION, handler.location.handler))
+    # application.add_handler(MessageHandler(filters.SUCCESSFUL_PAYMENT, handler.payment.handler))
+    application.add_handler(MessageHandler(filters.LOCATION, handler.button.handler))
     application.run_polling()
 
 if __name__ == "__main__":
     initLocations()
     insertItemsToFlow()
-    print("VENUES")
-    print(model.venueModel.venues)
     main()

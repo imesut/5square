@@ -4,7 +4,7 @@ import time
 from network import headers, ordersEndpoint, paymentsEndpoint
 
 
-def orderItem(locationId : str, catalog_object_id : str, userName : str, userId : str) -> str:
+def orderItem(locationId : str, catalog_object_id : str, userName : str, customerId : str) -> str:
     """Places order of the user.
 
     Args:
@@ -19,12 +19,17 @@ def orderItem(locationId : str, catalog_object_id : str, userName : str, userId 
     payload = json.dumps({
         "order": {
             "location_id": locationId,
+            "customer_id": customerId,
             "line_items": [
                 {
                     "quantity": "1", # Single item for the POC reasons to simplify flow and focus on the main thing.
                     "catalog_object_id": catalog_object_id
                 }
             ],
+            "pricing_options": {
+                "auto_apply_discounts": True,
+                "auto_apply_taxes": True
+            }
             "fulfillments": [
                 {
                     "type": "PICKUP",
@@ -33,8 +38,7 @@ def orderItem(locationId : str, catalog_object_id : str, userName : str, userId 
                         "schedule_type": "ASAP",
                         "prep_time_duration": "P30M",
                         "recipient": {
-                            "display_name": userName,
-                            "customer_id": userId
+                            "customer_id": customerId
                         }
                     }
                 }

@@ -12,7 +12,12 @@ markups = {
     "main": {
         "text": "<b>Welcome to AllSquare.</b>\nYou can shop at places that provide payment infrastructure and offer you a personalized experience with the Square platform.",
         "name": "Main Menu",
-        "children": [ "categories", "venue_preferences", "food_preferences", "learn_more" ]
+        "children": [ "categories_ask_location", "venue_preferences", "food_preferences", "learn_more" ]
+    },
+    "categories_ask_location": {
+        "text": "<b>Please share your location.</b>",
+        "name": "Please share your location.",
+        "children": [ "<main" ]
     },
     "categories": {
         "text": "<b>Closest Places to You.</b>",

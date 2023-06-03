@@ -1,8 +1,8 @@
 import requests
 import json
-from model.network import headers, locationsEndpoint
+from model.squareModels.network import headers, locationsEndpoint
 from model.venueModel import addVenue
-from model.catalogModel import getMenu
+from model.squareModels.catalogModel import getMenu
 
 def initLocations():
     # For now, bot takes one location source dynamically, to position this bot better in the future

@@ -11,28 +11,33 @@ upMenuStr = "👆 Go to "
 
 async def handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
-    key = query.data
-    print(key)
+    replyType = "callback"
+    
+    # We got the location of user
+    # TODO: Add a sorting according to the distance to the user.
+    if hasattr(update.message, "location"):
+        location = update.message.location
+        key = "categories"
+        replyType = "location"
+    else:
+        key = query.data
+    
     keyParam = key.split("&")
-    print("keyParam", keyParam)
     key = keyParam[0]
     param = keyParam[1] if len(keyParam) >= 2 else ""
     decorator = keyParam[2] if len(keyParam) > 2 else ""
-    print("key", key)
     text = markups[key]["text"]
     
-    children = markups[key]["children"]
+    children = markups[key]["children"] if markups[key].__contains__("children") else []
     keyboard = []
     
     # Set Parameter in Chat Data
     if param != "" and decorator == "+":
         prefName = param
-        prefVal = getPrefs(context)[prefName]
-        
-        print(prefName, prefVal)
-        
+        prefVal = getPrefs(context)[prefName]        
         prefVal = (not prefVal)
         await setPref(prefName=prefName, value=prefVal, context=context)
+
     
     elif key == "food" or key == "coffee" or key ==  "beauty":
         # Insert venue=id keys as children
@@ -41,12 +46,16 @@ async def handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     
     elif key.startswith("item"):
         itemId = key.split("=")[1]
-        print("itemId", itemId)
         text += warningTextForUser(itemId=itemId, context=context)
     
-            
+    elif key == "_pay":
+        print("here")
+    
+    """
+    ITERATE OVER CHILDS
+    """
     for child in children:
-                
+                        
         # Retrieve Go Back Items
         if child.startswith("<"):
             child = child[1:]
@@ -58,7 +67,6 @@ async def handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                     
         # Retrieve Ordinary Items
         else:
-            print("heree", key, text)
 
             if key == "venue_preferences" or key == "food_preferences":
                 keyboard.append( basePrefOption(child=child, context=context, key=key) )
@@ -70,9 +78,14 @@ async def handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             else:
                 keyboard.append( [InlineKeyboardButton( markups[child]["name"], callback_data = child )] )
     
-    await query.answer()
-    await query.edit_message_text( text = text, parse_mode="HTML", reply_markup = InlineKeyboardMarkup(keyboard) )
+    
+    if replyType == "location":
+        await update.message.reply_text(text=text, parse_mode="HTML", reply_markup=InlineKeyboardMarkup(keyboard))
+    else:
+        await query.answer()
+        await query.edit_message_text( text = text, parse_mode="HTML", reply_markup = InlineKeyboardMarkup(keyboard) )
 
+    
 
 def basePrefOption(child, context, key) -> list:
     path = child.split("&")
