@@ -49,7 +49,7 @@ venues = [
             {
                 "id": "4001",
                 "name": "Pizza Margherita (Gluten Free)",
-                "price": 1250,
+                "price": 12.50,
                 "currency": "USD",
                 "3DModel": "",
                 "image": "https://cookieandkate.com/images/2021/07/classic-margherita-pizza.jpg",
@@ -61,7 +61,7 @@ venues = [
             {
                 "id": "4002",
                 "name": "Pizza Margherita",
-                "price": 1250,
+                "price": 12.50,
                 "currency": "USD",
                 "3DModel": "",
                 "image": "https://cookieandkate.com/images/2021/07/classic-margherita-pizza.jpg",
@@ -73,7 +73,7 @@ venues = [
             {
                 "id": "4003",
                 "name": "Pizza Pepperoni",
-                "price": 1750,
+                "price": 17.50,
                 "currency": "USD",
                 "3DModel": "",
                 "image": "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F19%2F2014%2F07%2F10%2Fpepperoni-pizza-ck-x.jpg&q=60",

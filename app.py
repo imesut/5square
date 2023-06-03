@@ -7,9 +7,11 @@ from utils.envUtils import ENV
 from model.locationsModel import initLocations
 import handler.location, handler.payment, handler.button
 
-from view.buttons import markups
+from model.flowModel import markups
 
 import logging
+import model.venueModel
+from model.flowModel import insertItemsToFlow
 
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -34,5 +36,8 @@ def main() -> None:
     application.run_polling()
 
 if __name__ == "__main__":
-    # initLocations()
+    initLocations()
+    insertItemsToFlow()
+    print("VENUES")
+    print(model.venueModel.venues)
     main()

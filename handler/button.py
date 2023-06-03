@@ -1,13 +1,11 @@
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import ContextTypes
 
-from routes import choosePath
-
 from utils import payments
 from utils.prefUtils import setPref, getPrefs, warningTextForUser
 
-from view.buttons import markups
-from model.venueModel import getVenue, getItemWoVenue
+from model.flowModel import markups
+import model.venueModel
 
 upMenuStr = "👆 Go to "
 
@@ -35,6 +33,11 @@ async def handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         
         prefVal = (not prefVal)
         await setPref(prefName=prefName, value=prefVal, context=context)
+    
+    elif key == "food" or key == "coffee" or key ==  "beauty":
+        # Insert venue=id keys as children
+        children = list(map(lambda x: "venue=" + str(x["id"]), model.venueModel.venues))
+        children.append("<categories")
     
     elif key.startswith("item"):
         itemId = key.split("=")[1]

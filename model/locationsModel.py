@@ -4,7 +4,6 @@ from model.network import headers, locationsEndpoint
 from model.venueModel import addVenue
 from model.catalogModel import getMenu
 
-
 def initLocations():
     # For now, bot takes one location source dynamically, to position this bot better in the future
     # It would be great to allow venue owners to enable their locations for bot servicability.

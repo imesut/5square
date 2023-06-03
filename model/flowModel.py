@@ -98,73 +98,73 @@ markups = {
     }
 }
 
-
-for venue in model.venueModel.venues:
-    venueKey = "venue=" + venue["id"]
-    menuArray = []
-    
-    for item in venue["menu"]:
-        itemKey = "item=" + item["id"]
-        menuArray.append( itemKey )
+def insertItemsToFlow():
+    for venue in model.venueModel.venues:
+        venueKey = "venue=" + venue["id"]
+        menuArray = []
         
-        """
-        Add Item Description Text to the Message
-        """
-        itemDescription = f"<b> { venue['name'].upper() } </b> \n"
-        if item["image"] != "":
-            itemDescription += f"<a href='{ item['image'] }'>·</a> \n"
-        if item["3DModel"] != "":
-            # iOS displays AR content natively on direct link access.
-            # For a later process in project, other messaging apps can display webview inside the chat.
-            # So there won't be any need to develop a wrapper for AR objects.
-            itemDescription += f"<a href='{ item['3DModel'] }'>View 3D Model</a> \n"
-        if item["ingredients"] != "":
-            itemDescription += f"<b>Ingredients:</b> { item['ingredients'] }\n"
-        itemDescription += f"<b>PRICE:</b> { str(item['price'] / 100) } { item['currency'] }"
-        
-        
-        buttonsInMenuItem = [
-            "_pay&" + item["id"], # Payment button for item
-            "learn_sign_language",
-            "<food_preferences",
-            "<" + venueKey # Go back item
-            ]
+        for item in venue["menu"]:
+            itemKey = "item=" + item["id"]
+            menuArray.append( itemKey )
             
-        #     [InlineKeyboardButton("Order and Pay Now", callback_data = "pay", pay=True)],
-        #     [InlineKeyboardButton(upMenuStr, callback_data = "<" + venueKey]
-        # ]
+            """
+            Add Item Description Text to the Message
+            """
+            itemDescription = f"<b> { venue['name'].upper() } </b> \n"
+            if item["image"] != "":
+                itemDescription += f"<a href='{ item['image'] }'>·</a> \n"
+            if item["3DModel"] != "":
+                # iOS displays AR content natively on direct link access.
+                # For a later process in project, other messaging apps can display webview inside the chat.
+                # So there won't be any need to develop a wrapper for AR objects.
+                itemDescription += f"<a href='{ item['3DModel'] }'>View 3D Model</a> \n"
+            if item["ingredients"] != "":
+                itemDescription += f"<b>Ingredients:</b> { item['ingredients'] }\n"
+            itemDescription += f"<b>PRICE:</b> { str(item['price'] ) } { item['currency'] }"
+            
+            
+            buttonsInMenuItem = [
+                "_pay&" + item["id"], # Payment button for item
+                "learn_sign_language",
+                "<food_preferences",
+                "<" + venueKey # Go back item
+                ]
+                
+            #     [InlineKeyboardButton("Order and Pay Now", callback_data = "pay", pay=True)],
+            #     [InlineKeyboardButton(upMenuStr, callback_data = "<" + venueKey]
+            # ]
 
+            
+            markups[itemKey] = {
+                "name": item["name"],
+                "text": itemDescription,
+                "children": buttonsInMenuItem
+            }
         
-        markups[itemKey] = {
-            "name": item["name"],
-            "text": itemDescription,
-            "children": buttonsInMenuItem
+        # TODO pass/implement parent category
+        menuArray.append("<food_preferences")
+        menuArray.append("<food")
+        
+        """
+        Add Venue Description Text to the Message
+        """
+        venueDescription = f"""
+        <a href='{venue['image'] } '>·</a>
+        <b> {venue['name'].upper()} </b> Score: {venue['score']}
+        {venue['description']}
+        <i>
+        Address: { venue['address'] }
+        Phone: <a href='tel:{ venue['phone'] }'>{ venue['phone'] }</a>
+        </i>
+        """
+        
+        # TODO: Calculate real distance from user's location.
+        distance = random.choice([100, 250, 300, 400, 500])
+        
+        markups[venueKey] = {
+            "text": venueDescription,
+            "name": venue["name"] + " " + venue["score"] + "⭐️ - " + str(distance) + " meters",
+            "children": menuArray
         }
-    
-    # TODO pass/implement parent category
-    menuArray.append("<food_preferences")
-    menuArray.append("<food")
-    
-    """
-    Add Venue Description Text to the Message
-    """
-    venueDescription = f"""
-    <a href='{venue['image'] } '>·</a>
-    <b> {venue['name'].upper()} </b> Score: {venue['score']}
-    {venue['description']}
-    <i>
-    Address: { venue['address'] }
-    Phone: <a href='tel:{ venue['phone'] }'>{ venue['phone'] }</a>
-    </i>
-    """
-    
-    # TODO: Calculate real distance from user's location.
-    distance = random.choice([100, 250, 300, 400, 500])
-    
-    markups[venueKey] = {
-        "text": venueDescription,
-        "name": venue["name"] + " " + venue["score"] + "⭐️ - " + str(distance) + " meters",
-        "children": menuArray
-    }
-    
-    print(markups)
+        
+        print(markups)
