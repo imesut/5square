@@ -1,3 +1,11 @@
+# PROJET TODOs
+
+1. Blind friendly -> show description
+2. up to date venues / items content
+3. bot logo / description
+4. Gifs & descriptions
+5. Technical docs / flos
+
 # All Square
 
 This is a project for Square Hackathon.
