@@ -1,10 +1,10 @@
 import requests
 import json
 import time
-from network import headers, ordersEndpoint, paymentsEndpoint
+from model.squareModels.network import headers, ordersEndpoint, paymentsEndpoint
 
 
-def orderItem(locationId : str, catalog_object_id : str, userName : str, customerId : str) -> str:
+def orderItem(locationId : str, catalog_object_id : str, customerId : str) -> str:
     """Places order of the user.
 
     Args:
@@ -29,7 +29,7 @@ def orderItem(locationId : str, catalog_object_id : str, userName : str, custome
             "pricing_options": {
                 "auto_apply_discounts": True,
                 "auto_apply_taxes": True
-            }
+            },
             "fulfillments": [
                 {
                     "type": "PICKUP",
@@ -49,18 +49,16 @@ def orderItem(locationId : str, catalog_object_id : str, userName : str, custome
     
     response = requests.request("POST", ordersEndpoint, headers = headers, data = payload)
     
-    if response.status_code == 200:    
-        response = json.loads(response.text)
-        orderId = response["order"]["id"]
+    if response.status_code == 200:
+        response = json.loads(response.text)["order"]
+        print(response)
+        orderId = response["id"]
         amount = response["net_amount_due_money"]["amount"]
         currency = response["net_amount_due_money"]["currency"]
         receiptNumber = payOrder(idempotencyKey=idempotencyKey, orderId=orderId, amount=amount, currency=currency)
         return receiptNumber
     else:
         return "-1"
-
-# Sample Order Function Call
-# orderItem("L7E1Z2CGNYTM8", "5LN4DYZESGUI2ZLS3ZP6GY4S", "Mesut Yılmaz", "mesuts_telegram_id")
 
 def payOrder(idempotencyKey : str, orderId : str, amount : int, currency : str) -> str:
 

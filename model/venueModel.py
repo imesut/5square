@@ -118,3 +118,17 @@ def getItemWoVenue(item_id):
         for item in venue["menu"]:
             if item["id"] == item_id:
                 return item
+
+# No function overload in Python, so define a new name
+def getVenueId(item_id : str) -> str:
+    """
+    Args:
+        item_id (str): item's id
+
+    Returns:
+        str: venue=location's id
+    """
+    for venue in venues:
+        for item in venue["menu"]:
+            if item["id"] == item_id:
+                return venue["id"]

@@ -3,8 +3,12 @@ import requests, json
 
 
 def findOrCreateCustomer(userName : str, name : str, surname : str) -> str:
-    if searchCustomer(userName=userName) != "":
+    idFromSearch = searchCustomer(userName=userName)
+    
+    if idFromSearch == "":
         return createCustomer(name=name, surname=surname, userName=userName)
+    else:
+        return idFromSearch
 
 def searchCustomer(userName : str) -> str:
     res = requests.request("POST", customersEndpoint + "search", headers=headers, data=json.dumps({"query": {

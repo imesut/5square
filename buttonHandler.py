@@ -5,6 +5,7 @@ from utils import payments
 from utils.prefUtils import setPref, getPrefs, warningTextForUser
 
 from model.flowModel import markups
+from utils.payments import payItem
 import model.venueModel
 
 upMenuStr = "👆 Go to "
@@ -47,9 +48,25 @@ async def handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     elif key.startswith("item"):
         itemId = key.split("=")[1]
         text += warningTextForUser(itemId=itemId, context=context)
-    
+        
     elif key == "_pay":
-        print("here")
+        """
+        We cannot use Square's payment api with Telegram's native payment module.
+        Also we didn't wanted to get credit card details as a text message in Telegram.
+        And other payment providers such as Stripe generally is not working in Sandbox mode.
+        There is a problem between Telegram and Stripe.
+        Even there is a problem, Payment feature of Telegram and Whatsapp provides secure,
+        reliable and easy implementations.
+        """
+        itemId = param
+        receiptId = payItem(update, itemId = itemId)
+
+        if receiptId != "-1":
+            text = f"Your order is successfully placed. Receipt Id: {receiptId}"
+        else:
+            text = "An Error Occured, while placing your order. Please Try Again."
+
+        keyboard = [[ InlineKeyboardButton( markups["main"]["name"], callback_data = "main") ]]
     
     """
     ITERATE OVER CHILDS
@@ -65,16 +82,12 @@ async def handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         elif child.startswith("_"):
             keyboard.append( [InlineKeyboardButton( "Order and Pay", callback_data = child )] )
                     
-        # Retrieve Ordinary Items
+        # Retrieve Standards Items with keys
         else:
 
             if key == "venue_preferences" or key == "food_preferences":
                 keyboard.append( basePrefOption(child=child, context=context, key=key) )
-            
-            elif key == "pay":
-                orderId = param
-                keyboard.append( [InlineKeyboardButton( "Placing your order Press to return home", callback_data = "main" )] )
-  
+
             else:
                 keyboard.append( [InlineKeyboardButton( markups[child]["name"], callback_data = child )] )
     
