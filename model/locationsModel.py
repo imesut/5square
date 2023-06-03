@@ -18,9 +18,10 @@ def initLocations():
             name = location["name"]
             address = location["address"]["address_line_1"]
             phone = location["phone_number"]
+            description = location["description"]
             image = ""
             if location.__contains__("pos_background_url"):   
                 image = location["pos_background_url"]
             menu = getMenu()
             
-            addVenue(id=id, name=name, address=address, phone=phone, image=image, menu=menu)
+            addVenue(id=id, name=name, address=address, phone=phone, image=image, description=description, menu=menu)

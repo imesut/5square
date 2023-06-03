@@ -48,7 +48,11 @@ def transformCatalogToMenu(objects) -> list:
                         "price": price,
                         "currency": currency,
                         "3DModel": props["3DModel"] if props.__contains__("3DModel") else "",
-                        "image": fetchImage(itemData["image_ids"][0]) if itemData.__contains__("image_ids") else ""
+                        "image": fetchImage(itemData["image_ids"][0]) if itemData.__contains__("image_ids") else "",
+                        "gluten_free": props["gluten_free"] if props.__contains__("gluten_free") else False,
+                        "lactose_free": props["lactose_free"] if props.__contains__("lactose_free") else False,
+                        "vegetarian": props["vegetarian"] if props.__contains__("vegetarian") else False,
+                        "ingredients": props["ingredients"] if props.__contains__("ingredients") else ""
                     })
 
     return menu

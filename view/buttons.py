@@ -48,7 +48,7 @@ markups = {
     "food_preferences": {
         "text": "<b>Food Preferences</b>",
         "name": "Food Preferences",
-        "children": [ "food_preferences&vegetarian", "food_preferences&gluten_allergy", "food_preferences&milk_allergy", "food_preferences&other_allergy", "<main" ]
+        "children": [ "food_preferences&vegetarian", "food_preferences&gluten_allergy", "food_preferences&lactose_allergy", "food_preferences&other_allergy", "<main" ]
     },
     "learn_more": {
         "text": "<b>Learn More</b>",
@@ -61,7 +61,7 @@ markups = {
     "_pay": { "text": "Payment in Progress" },
     "vegetarian": { "name": "Prefer Vegetarian options" },
     "gluten_allergy": { "name": "Choose Gluten-free options" },
-    "milk_allergy": { "name": "Choose milk-free options" },
+    "lactose_allergy": { "name": "Choose lactose-free options" },
     "other_allergy": { "name": "I have another allergy" }
 }
 
@@ -74,6 +74,9 @@ for venue in model.venueModel.venues:
         itemKey = "item=" + item["id"]
         menuArray.append( itemKey )
         
+        """
+        Add Item Description Text to the Message
+        """
         itemDescription = f"<b> { venue['name'].upper() } </b> \n"
         if item["image"] != "":
             itemDescription += f"<a href='{ item['image'] }'>·</a> \n"
@@ -82,10 +85,14 @@ for venue in model.venueModel.venues:
             # For a later process in project, other messaging apps can display webview inside the chat.
             # So there won't be any need to develop a wrapper for AR objects.
             itemDescription += f"<a href='{ item['3DModel'] }'>View 3D Model</a> \n"
-        itemDescription += f"PRICE: { str(item['price'] / 100) } { item['currency'] }"
+        if item["ingredients"] != "":
+            itemDescription += f"<b>Ingredients:</b> { item['ingredients'] }\n"
+        itemDescription += f"<b>PRICE:</b> { str(item['price'] / 100) } { item['currency'] }"
+        
         
         buttonsInMenuItem = [
             "_pay&" + item["id"], # Payment button for item
+            "<food_preferences",
             "<" + venueKey # Go back item
             ]
             
@@ -101,14 +108,20 @@ for venue in model.venueModel.venues:
         }
     
     # TODO pass/implement parent category
+    menuArray.append("<food_preferences")
     menuArray.append("<food")
     
+    """
+    Add Venue Description Text to the Message
+    """
     venueDescription = f"""
     <a href='{venue['image'] } '>·</a>
-    <b> {venue['name'].upper()} </b>
-    Score: {venue['score']}
+    <b> {venue['name'].upper()} </b> Score: {venue['score']}
+    {venue['description']}
+    <i>
     Address: { venue['address'] }
     Phone: <a href='tel:{ venue['phone'] }'>{ venue['phone'] }</a>
+    </i>
     """
     
     # TODO: Calculate real distance from user's location.
@@ -121,33 +134,3 @@ for venue in model.venueModel.venues:
     }
     
     print(markups)
-
-# def view_button_venues_in_category(crntPath : str):
-#     type = lastPathParam(crntPath)
-#     keyboard = []
-#     for venue in model.venueModel.venues:
-#         keyboard.append( [InlineKeyboardButton(venue["name"], callback_data = addToPath(crntPath, venue["id"]))] )
-#     keyboard.append( [InlineKeyboardButton(f"Other {type}s", callback_data = "main")] )
-#     keyboard.append( [InlineKeyboardButton(upMenuStr, callback_data = prvPath(crntPath))] )
-#     return InlineKeyboardMarkup(keyboard)
-
-def view_button_menu_detail(crntPath : str):
-    params = splitPathStr(crntPath)
-    type = params[-3]
-    venue_id = params[-2]
-    keyboard = []
-    for venue in model.venueModel.venues:
-        if venue["id"] == venue_id:
-            for item in venue["menu"]:
-                keyboard.append( [InlineKeyboardButton(item["name"], callback_data = addToPath(crntPath, item["id"]))] )
-    
-    keyboard.append( [InlineKeyboardButton(upMenuStr, callback_data = prvPath(crntPath))] )
-    return InlineKeyboardMarkup(keyboard)
-
-def view_button_item_detail(crntPath : str):
-    params = splitPathStr(crntPath)
-    type = params[-4]
-    venue_id = params[-3]
-    
-    return InlineKeyboardMarkup(keyboard)
-

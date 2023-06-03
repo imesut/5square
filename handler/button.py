@@ -4,10 +4,10 @@ from telegram.ext import ContextTypes
 from routes import choosePath
 
 from utils import payments
-from utils.prefUtils import setPref, getPrefs
+from utils.prefUtils import setPref, getPrefs, warningTextForUser
 
 from view.buttons import markups
-from model.venueModel import getVenue
+from model.venueModel import getVenue, getItemWoVenue
 
 upMenuStr = "👆 Go to "
 
@@ -36,10 +36,14 @@ async def handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         prefVal = (not prefVal)
         await setPref(prefName=prefName, value=prefVal, context=context)
     
+    elif key.startswith("item"):
+        itemId = key.split("=")[1]
+        print("itemId", itemId)
+        text += warningTextForUser(itemId=itemId, context=context)
+    
+            
     for child in children:
-        
-        print(child)
-        
+                
         # Retrieve Go Back Items
         if child.startswith("<"):
             child = child[1:]
@@ -51,16 +55,17 @@ async def handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                     
         # Retrieve Ordinary Items
         else:
+            print("heree", key, text)
+
             if key == "venue_preferences" or key == "food_preferences":
                 keyboard.append( basePrefOption(child=child, context=context, key=key) )
-                
+            
             elif key == "pay":
                 orderId = param
                 keyboard.append( [InlineKeyboardButton( "Placing your order Press to return home", callback_data = "main" )] )
   
             else:
                 keyboard.append( [InlineKeyboardButton( markups[child]["name"], callback_data = child )] )
-    
     
     await query.answer()
     await query.edit_message_text( text = text, parse_mode="HTML", reply_markup = InlineKeyboardMarkup(keyboard) )
