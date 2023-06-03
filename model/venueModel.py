@@ -1,5 +1,6 @@
-from utils.envUtils import ENV
 import random
+
+from utils.envUtils import ENV
 
 venues = [
     # {
@@ -100,8 +101,6 @@ def addVenue(id, name, address, phone, image, description, menu):
         "score": random.choice(["5/5", "4.5/5", "4/5"]) # Implement a rating and rate update system in future.
     })
     
-    print(venues)
-
 def getVenue(id):
     for venue in venues:
         if venue["id"] == id:

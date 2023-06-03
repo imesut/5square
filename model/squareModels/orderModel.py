@@ -1,6 +1,5 @@
-import requests
-import json
-import time
+import requests, json, time
+
 from model.squareModels.network import headers, ordersEndpoint, paymentsEndpoint
 
 
@@ -51,7 +50,6 @@ def orderItem(locationId : str, catalog_object_id : str, customerId : str) -> st
     
     if response.status_code == 200:
         response = json.loads(response.text)["order"]
-        print(response)
         orderId = response["id"]
         amount = response["net_amount_due_money"]["amount"]
         currency = response["net_amount_due_money"]["currency"]

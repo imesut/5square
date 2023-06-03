@@ -1,5 +1,6 @@
 from telegram.ext import ContextTypes
-from model.venueModel import getVenue, getItemWoVenue
+
+from model.venueModel import getItemWoVenue
 
 # TODO persistent storage ?
 

@@ -1,7 +1,6 @@
-import requests
-import json
+import requests, json
+
 from model.squareModels.network import headers, catalogEndpoint, catalogObjectEndpoint
-from model.venueModel import addVenue
 
 
 def getMenu():

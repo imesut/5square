@@ -1,5 +1,6 @@
-from model.squareModels.network import headers, customersEndpoint
 import requests, json
+
+from model.squareModels.network import headers, customersEndpoint
 
 
 def findOrCreateCustomer(userName : str, name : str, surname : str) -> str:

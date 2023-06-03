@@ -1,9 +1,6 @@
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import ContextTypes
-import model.venueModel
-
-import utils.prefUtils
 import random
+
+import model.venueModel
 
 upMenuStr = "👆 Go to the Previous Menu"
 
@@ -170,5 +167,3 @@ def insertItemsToFlow():
             "name": venue["name"] + " " + venue["score"] + "⭐️ - " + str(distance) + " meters",
             "children": menuArray
         }
-        
-        print(markups)

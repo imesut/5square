@@ -1,12 +1,11 @@
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import ContextTypes
 
-from utils import payments
-from utils.prefUtils import setPref, getPrefs, warningTextForUser
-
 from model.flowModel import markups
-from utils.payments import payItem
 import model.venueModel
+
+from utils.payments import payItem
+from utils.prefUtils import setPref, getPrefs, warningTextForUser
 
 upMenuStr = "👆 Go to "
 

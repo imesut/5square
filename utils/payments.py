@@ -1,11 +1,8 @@
 from telegram import Update
 
-from utils.envUtils import ENV
 from model.venueModel import *
 from model.squareModels.customerModel import findOrCreateCustomer
 from model.squareModels.orderModel import orderItem
-
-import time
 
 def payItem(update : Update, itemId : str) -> str:    
     """

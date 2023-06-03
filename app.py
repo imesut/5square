@@ -24,13 +24,17 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 def main() -> None:
     application = Application.builder().token(ENV.TOKEN).build()
+    
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CallbackQueryHandler(buttonHandler.handler))
     # application.add_handler(MessageHandler(filters.SUCCESSFUL_PAYMENT, handler.payment.handler))
     application.add_handler(MessageHandler(filters.LOCATION, buttonHandler.handler))
+    
     application.run_polling()
 
 if __name__ == "__main__":
+    
     initLocations()
     insertItemsToFlow()
+    
     main()
