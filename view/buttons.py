@@ -62,7 +62,40 @@ markups = {
     "vegetarian": { "name": "Prefer Vegetarian options" },
     "gluten_allergy": { "name": "Choose Gluten-free options" },
     "lactose_allergy": { "name": "Choose lactose-free options" },
-    "other_allergy": { "name": "I have another allergy" }
+    "other_allergy": { "name": "I have another allergy" },
+    "learn_sign_language": {
+        "text": """<b>Discover how to order with sign language</b>
+        Explore sample sign language images or ask our assistants, pick one below.""",
+        "name": "Discover how to order with sign language",
+        "children": [ "sign_lang_can_i_have", "sign_lang_thanks", "sign_lang_please", "<main" ]
+    },
+    "sign_lang_can_i_have": {
+        "text": """
+        <b>Can I have?</b>
+        <a href='https://8designers.com/blog/bl-content/uploads/pages/d1d6f72feff040a9a81d9dc06a3b366d/Wow-gif.gif'>·</a>
+        <b>Description:</b> Place your hands like...
+        """,
+        "name": "Can I have ...?",
+        "children": [ "<learn_sign_language" ]
+    },
+    "sign_lang_thanks": {
+        "text": """
+        <b>Thanks</b>
+        <a href='https://8designers.com/blog/bl-content/uploads/pages/d1d6f72feff040a9a81d9dc06a3b366d/Wow-gif.gif'>·</a>
+        <b>Description:</b> Place your hands like...
+        """,
+        "name": "Thanks",
+        "children": [ "<learn_sign_language" ]
+    },
+    "sign_lang_please": {
+        "text": """
+        <b>Please</b>
+        <a href='https://8designers.com/blog/bl-content/uploads/pages/d1d6f72feff040a9a81d9dc06a3b366d/Wow-gif.gif'>·</a>
+        <b>Description:</b> Place your hands like...
+        """,
+        "name": "Please",
+        "children": [ "<learn_sign_language" ]
+    }
 }
 
 
@@ -92,6 +125,7 @@ for venue in model.venueModel.venues:
         
         buttonsInMenuItem = [
             "_pay&" + item["id"], # Payment button for item
+            "learn_sign_language",
             "<food_preferences",
             "<" + venueKey # Go back item
             ]
