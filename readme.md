@@ -4,6 +4,7 @@
 - [Idea](#idea)
   - [Benefits to Venues](#benefits-to-venues)
   - [Benefits to End Users (Customers of the Venues)](#benefits-to-end-users-customers-of-the-venues)
+  - [Chatbot Flow](#chatbot-flow)
 - [How to Run?](#how-to-run)
 - [How to Deploy?](#how-to-deploy)
 - [Suggestions to Square](#suggestions-to-square)
@@ -51,6 +52,19 @@ But all the methods we found required workarounds which won't be generally appli
 1. > Simply placing orders (even before visiting the venue)
 1. > Simply paying orders, with registered payment information (Not Completely Implemented, for the reason, overview the [Suggestions to Square](#suggestions-to-square) )
 
+
+## Chatbot Flow
+
+| | | |
+|-|-|-|
+|![](assets/ss_1.jpeg) | ![](assets/ss_2.jpeg)| ![](assets/ss_6.jpeg) |
+| Welcome Screen | List Nearby Places asks for a location sharing. | After getting location, chatbot lists closest venues. |
+|![](assets/ss_3.jpeg) | ![](assets/ss_4.jpeg)| ![](assets/ss_5.jpeg) |
+| Venue Preferences (none of the options selected) | When any option is selected. | Food Preferences provides a similar interface. |
+|![](assets/ss_7.jpeg) | ![](assets/ss_8.jpeg)| ![](assets/ss_11.jpeg) |
+| Restaurant / Venue Detail Page | Menu Item's Detail Page | When user "Order and Pay"s the order and user data is passed to Square service. |
+|![](assets/ss_9.jpeg) | ![](assets/ss_10.jpeg)|  |
+| If item contains AR Contents, it can be experimented on a surface. | Another AR view | |
 
 ---
 
